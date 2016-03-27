@@ -18,6 +18,8 @@ class Client extends \GuzzleHttp\Client implements APIClientInterface
         ];
 
         $results = $this->request('POST', 'results', $payload);
+        
+        return $results;
 
     }
     

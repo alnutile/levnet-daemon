@@ -15,6 +15,11 @@ class SpeedTestService
 
     public $path = '/usr/local/bin/speedtest-cli';
 
+    /**
+     * @var \GuzzleHttp\Psr7\Response
+     */
+    public $api_results = null;
+
     public $output = null;
 
     /**
@@ -56,6 +61,8 @@ class SpeedTestService
         $this->saveResults();
 
         $this->sendResults();
+
+        $this->markSuccessSendingResults();
     }
     
     public function run()
@@ -81,6 +88,8 @@ class SpeedTestService
     public function setOutput($output)
     {
         $this->output = $output;
+        
+        return $this;
     }
 
     private function saveResults()
@@ -91,18 +100,57 @@ class SpeedTestService
         $result->save();
 
         $this->results = $result;
+        
+        return $this;
     }
 
     private function sendResults()
     {
         try
         {
-            $this->APIClientInterface->sendUpdate($this->results->toArray());
+            $this->setApiResults($this->APIClientInterface->sendUpdate($this->sendResultsToApiTransformer()));
         }
         catch(\Exception $e)
         {
+            /**
+             * Notify via Slack 
+             */
             Log::info(sprintf("Error saving results %s", $e->getMessage()));
         }
+    }
+
+    public function getApiResults()
+    {
+        return $this->api_results;
+    }
+
+    public function setApiResults($api_results)
+    {
+        $this->api_results = $api_results;
+    }
+
+    /**
+     * If sent great else it stays in the
+     * table as not sent for later try
+     * via the scheduler
+     */
+    private function markSuccessSendingResults()
+    {
+        if($this->api_results && $this->api_results->getStatusCode() == 200)
+        {
+            $this->results->sent = 1;
+            $this->results->save();
+        }
+
+    }
+
+    private function sendResultsToApiTransformer()
+    {
+        $results = $this->results->toArray();
+
+        $results['machine'] = env('MACHINE_ID', 'MACHINE_ID_NOT_SET');
+
+        return $results;
     }
 
 

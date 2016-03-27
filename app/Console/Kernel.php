@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        \App\Console\Commands\CheckForNonSentResultsConsole::class,
+        \App\Console\Commands\SendCommand::class,
     ];
 
     /**
@@ -24,6 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //
+        $schedule->command('levnet:checkunsent')->withoutOverlapping()->hourly();
+        
+        $schedule->command('levnet:send')->withoutOverlapping()->everyMinute();
     }
 }
