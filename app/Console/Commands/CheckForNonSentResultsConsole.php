@@ -29,14 +29,15 @@ class CheckForNonSentResultsConsole extends Command
     
     public function handle()
     {
-        $results_not_sent = \App\Result::where('sent', 0)->get();
+        $results_not_sent = \App\Result::where('sent', "LIKE", "0")->get();
+
         
         if($results_not_sent)
         {
             foreach($results_not_sent as $result)
             {
                 Log::info(sprintf("Sending previous unsent results from %s", $result->created_at));
-                $this->getService()->setOutput($result)->runAndSaveResults();
+                $this->getService()->setResults($result)->sendResultsAgain();
             }
         }
     }

@@ -42,6 +42,9 @@ Send to my slack any errors
 Make a way to know what machine is checking in
 --the api will get the IP but this might change
 
+Setup testing then deployment
+--have local machines pull latest code down
+
 # Receiving API Notes
 
 It will use the created_at, that is sent to it, to know when the test was taken

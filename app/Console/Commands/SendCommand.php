@@ -31,7 +31,7 @@ class SendCommand extends Command
     {
         try
         {
-            $this->service->run();
+            $this->service->runAndSaveResults();
             Log::info("Stats sent to api");
         }
         catch (\Exception $e)

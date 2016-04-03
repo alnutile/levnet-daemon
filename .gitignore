@@ -2,3 +2,4 @@
 .env
 storage/database.sqlite
 storage/results.json
+.idea/*

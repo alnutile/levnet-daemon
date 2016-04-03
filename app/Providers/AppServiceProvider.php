@@ -16,6 +16,12 @@ class AppServiceProvider extends ServiceProvider
             {
                 $model->id = Uuid::uuid4()->toString();
             }
+            if(!$model->tries)
+            {
+                $model->tries = 1;
+            } else {
+                $model->tries = $model->tries++;
+            }
         });
     }
 

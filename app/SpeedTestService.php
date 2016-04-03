@@ -64,6 +64,13 @@ class SpeedTestService
 
         $this->markSuccessSendingResults();
     }
+
+    public function sendResultsAgain()
+    {
+        $this->sendResults();
+
+        $this->markSuccessSendingResults();
+    }
     
     public function run()
     {
@@ -74,8 +81,6 @@ class SpeedTestService
 
         $this->output = json_encode(explode("\n", $process->getOutput()), JSON_PRETTY_PRINT);
 
-        //File::put(base_path('tests/fixtures/output.json'), $this->output);
-
         return $this->output;
 
     }
@@ -85,7 +90,7 @@ class SpeedTestService
         return $this->output;
     }
 
-    public function setOutput($output)
+    public function setOutput(Result $output)
     {
         $this->output = $output;
         
@@ -116,7 +121,17 @@ class SpeedTestService
              * Notify via Slack 
              */
             Log::info(sprintf("Error saving results %s", $e->getMessage()));
+            $this->setResultsAsUnsent();
         }
+    }
+
+    protected function setResultsAsUnsent()
+    {
+        $this->results->sent = 0;
+
+        $this->results->tries = $this->results->tries + 1;
+
+        $this->results->save();
     }
 
     public function getApiResults()
@@ -140,17 +155,35 @@ class SpeedTestService
         {
             $this->results->sent = 1;
             $this->results->save();
+        } else {
+            //Just save as we count the tries
+            $this->results->save();
         }
 
     }
 
     private function sendResultsToApiTransformer()
     {
+        
         $results = $this->results->toArray();
 
         $results['machine'] = env('MACHINE_ID', 'MACHINE_ID_NOT_SET');
 
+        $results['tries']   = (isset($results['tries'])) ? $results['tries'] + 1 : 1;
+
         return $results;
+        
+    }
+
+    public function getResults()
+    {
+        return $this->results;
+    }
+
+    public function setResults($results)
+    {
+        $this->results = $results;
+        return $this;
     }
 
 

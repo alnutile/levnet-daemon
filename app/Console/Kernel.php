@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \App\Console\Commands\CheckForNonSentResultsConsole::class,
         \App\Console\Commands\SendCommand::class,
+        \App\Console\Commands\ReportOnUnSentCommand::class,
     ];
 
     /**

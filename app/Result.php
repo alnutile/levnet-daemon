@@ -11,11 +11,8 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 class Result extends Model
 {
 
-    protected $fillable = ['id', 'results', 'sent'];
+    protected $fillable = ['id', 'results', 'sent', 'tries', 'api_version'];
 
     public $incrementing = false;
-    
-    
-    
     
 }
