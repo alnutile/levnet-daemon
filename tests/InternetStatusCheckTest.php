@@ -56,7 +56,7 @@ class InternetStatusCheckTest extends TestCase
         
         $this->assertEquals("a:4:{i:0;s:14:\"Ping: 9.761 ms\";i:1;s:23:\"Download: 22.65 Mbyte/s\";i:2;s:21:\"Upload: 17.40 Mbyte/s\";i:3;s:0:\"\";}", $result['results']);
         
-        $this->assertEquals("1", $result['sent']);
+        $this->assertEquals("0", $result['sent']);
         
     }
     

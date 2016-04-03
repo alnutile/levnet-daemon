@@ -90,7 +90,7 @@ class SpeedTestService
         return $this->output;
     }
 
-    public function setOutput(Result $output)
+    public function setOutput($output)
     {
         $this->output = $output;
         
@@ -180,7 +180,7 @@ class SpeedTestService
         return $this->results;
     }
 
-    public function setResults($results)
+    public function setResults(Result $results)
     {
         $this->results = $results;
         return $this;

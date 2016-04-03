@@ -62,3 +62,5 @@ They can be sent at a later time via Scheduler
 * * * * php /var/foo/artisan schedule:run 1>> /dev/null 2>&1
 ~~~
 
+Note too all the .env settings
+
