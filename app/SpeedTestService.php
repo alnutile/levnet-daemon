@@ -100,7 +100,7 @@ class SpeedTestService
     private function saveResults()
     {
         $result = new Result();
-        $result->results = serialize($this->output);
+        $result->results = $this->output;
         $result->sent = 0;
         $result->save();
 

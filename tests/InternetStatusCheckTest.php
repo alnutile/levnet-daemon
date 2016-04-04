@@ -38,6 +38,9 @@ class InternetStatusCheckTest extends TestCase
 
         $service = m::mock(\App\SpeedTestService::class, [$repo, $client])->makePartial();
 
+        /**
+         * Results of a speedtest using python speedtest.net
+         */
         $results = json_decode(File::get(base_path('tests/fixtures/output.json')), true);
 
         $service->setOutput($results);
@@ -53,10 +56,10 @@ class InternetStatusCheckTest extends TestCase
         $result = \App\Result::latest()->first();
 
         $result = $result->toArray();
-        
-        $this->assertEquals("a:4:{i:0;s:14:\"Ping: 9.761 ms\";i:1;s:23:\"Download: 22.65 Mbyte/s\";i:2;s:21:\"Upload: 17.40 Mbyte/s\";i:3;s:0:\"\";}", $result['results']);
-        
-        $this->assertEquals("0", $result['sent']);
+
+        $this->assertNotNull($result['results']);
+
+        $this->assertEquals("1", $result['sent']);
         
     }
     
