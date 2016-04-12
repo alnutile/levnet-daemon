@@ -9,10 +9,11 @@
         "laravel/lumen-framework": "5.2.*",
         "vlucas/phpdotenv": "~2.2",
         "ramsey/uuid": "^3.3",
-        "guzzlehttp/guzzle": "^6.2"
+        "guzzlehttp/guzzle": "^6.2",
+        "laralib/l5scaffold": "dev-master",
+        "fzaninotto/faker": "~1.4"
     },
     "require-dev": {
-        "fzaninotto/faker": "~1.4",
         "phpunit/phpunit": "~4.0",
         "mockery/mockery": "^0.9.4"
     },
